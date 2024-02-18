@@ -82,6 +82,7 @@ while True:
 
     #if game is over, check for player input to start over
     else:
+        #reset player and snail to their original positions
         snail_rect.right = 800
         player_rect.y = 300
 

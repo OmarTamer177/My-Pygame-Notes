@@ -91,6 +91,7 @@ while True:
 
         screen.blit(player, player_rect)
     else:
+        #reset positions of snail and player
         snail_rect.right = 800
         player_rect.y = 300
         #reset start time upon gameover

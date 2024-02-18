@@ -1,6 +1,7 @@
 #################################################################
 # Transforming surfaces
-# [Rotating, scaling, mirroring....]
+# Using pygame.transform module
+#[Rotating, scaling, mirroring....]
 #################################################################
 import pygame, sys
 
@@ -10,7 +11,8 @@ pygame.display.set_caption('Game Title')
 screen = pygame.display.set_mode((800, 400)) 
 clock = pygame.time.Clock()
 
-game_active = True
+#setting game active variable to false indicating that the game is in main menu screen initially
+game_active = False
 
 sky_surface = pygame.image.load('graphics/Sky.png').convert_alpha()
 ground_surface = pygame.image.load('graphics/ground.png').convert_alpha()
@@ -31,12 +33,29 @@ player_rect = player.get_rect(midbottom = (80,300))
 player_gravity = 0
 player_jumping = False
 
+#to make a player character on the Intro screen
+#1.load the character image
+#2.scale it to the desired size using pygame.transform.scale( surface, (width, length) ) method or ..
+#pygame.transform.rotozoom( surface, angle, scale) method
+#3.blit it on screen
+stand_player = pygame.image.load('graphics/Player/player_stand.png').convert_alpha()
+stand_player = pygame.transform.rotozoom(stand_player, 0, 1.5)
+#stand_player = pygame.transform.scale(stand_player, (200, 400))
+stand_player_rect = stand_player.get_rect(center = (400, 200))
+
+#adding Text for intro screen
+intro_text = font.render("Snail Hopper", False, 'black')
+intro_text_rect = intro_text.get_rect(center = (400, 50))
+
+instruction_text = font.render("Press any button to start", False, 'black')
+instruction_text_rect = instruction_text.get_rect(center = (410, 350))
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-
+        
         if game_active:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE and not player_jumping:
@@ -83,9 +102,22 @@ while True:
 
         screen.blit(player, player_rect)
     else:
+        screen.fill((94, 129, 162))
+        
+        score_text = font.render(f'score: {score}', False, 'black')
+        score_text_rect = score_text.get_rect(center = (400, 340))
+        
+        #blit a standing player on intro screen
+        screen.blit(stand_player, stand_player_rect)
+        #blit intro text, instruction and score after each game on intro screen
+        screen.blit(intro_text, intro_text_rect)
+        if not score:
+            screen.blit(instruction_text, instruction_text_rect)
+        else:
+            screen.blit(score_text, score_text_rect)
+
         snail_rect.right = 800
         player_rect.y = 300
-        #reset start time upon gameover
         start_time = pygame.time.get_ticks()
 
     pygame.display.update()
