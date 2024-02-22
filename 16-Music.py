@@ -1,9 +1,6 @@
 #################################################################
-# Sprite class (OOP in pygame)
-# A class that contains the surface and the rectangle of an object
-# and it can be drawn and updated easily
-# We can create a sprite class for the player
-# and a class for the obstacles
+# Adding music
+# Importing a sound -> sound.play()
 #################################################################
 import pygame, sys, random
 
@@ -19,12 +16,17 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(midbottom = (80, 300))
         self.gravity = 0
         self.player_jumping = False
-    
+
+        #adding a sound jump using pygame.mixer.Sound(file) function
+        self.jump_sound = pygame.mixer.Sound('audio\jump.mp3')
+        self.jump_sound.set_volume(0.3)
+
     def player_input(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE] and self.rect.bottom >= 300:
             self.gravity = -18
             self.player_jumping = True
+            self.jump_sound.play()
 
     def apply_gravity(self):
         self.rect.y += self.gravity
@@ -86,6 +88,9 @@ def sprite_collide():
     return not has_collided
 
 pygame.init()
+bg_music = pygame.mixer.Sound('audio\music.wav')
+bg_music.set_volume(0.4)
+bg_music.play(loops = -1)
 
 pygame.display.set_caption('Game Title')
 screen = pygame.display.set_mode((800, 400)) 
@@ -202,7 +207,7 @@ while True:
         
         character.draw(screen)
         character.update()
-        
+
         obstacle_group.draw(screen)
         obstacle_group.update()
 
