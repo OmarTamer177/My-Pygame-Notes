@@ -107,7 +107,7 @@ while True:
 
         #only if the game is active, trigger obstacles and add a new obstacle to the list
         if game_active:
-            if event.type == obstacle_timer and game_active:
+            if event.type == obstacle_timer:
                 #randomly generate an obstacle whether a snail or fly
                 if random.randint(0,2):
                     new_obs = snail.get_rect(bottomright = (random.randint(900, 1100), 300))
